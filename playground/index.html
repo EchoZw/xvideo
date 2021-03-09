@@ -7,6 +7,15 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <script src="../dist/bundle.js"></script>
+  <script>
+    const body = document.body;
+    const vid = new xvideos.XVideo({
+      container: body,
+      url: 'http://vdse.bdstatic.com//509e615f77929fa31c1045f9782b77f9.mp4?authorization=bce-auth-v1%2F40f207e648424f47b2e3dfbb1014b1a5%2F2021-03-08T04%3A07%3A31Z%2F-1%2Fhost%2Fff22d592bb84670d17e5430edb20e7d026d8926045e39caa4021a8cd9d31984f'
+    });
+    vid.init();
+    console.log(vid)
+  </script>
 </body>
 </html>

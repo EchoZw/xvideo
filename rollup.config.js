@@ -1,16 +1,18 @@
 const path = require('path');
-const rollupTSPlugin = require('rollup-plugin-typescript')
-const tsconfig = require('./tsconfig.json');
+const rollupTSPlugin = require('@rollup/plugin-typescript')
 
 export default {
   input: path.resolve(__dirname, './src/index.ts'),
   output: {
     file: path.resolve(__dirname, './dist/bundle.js'),
-    format: 'cjs',
+    format: 'umd',
     name: 'xvideos'
   },
   plugins: [
-    rollupTSPlugin(tsconfig.compilerOptions)
+    rollupTSPlugin({
+      tsconfig: path.resolve(__dirname, './tsconfig.json'),
+      sourceMap: true
+    })
   ],
   watch: {
     include: path.resolve(__dirname, './src/**')

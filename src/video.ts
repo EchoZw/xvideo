@@ -9,7 +9,7 @@ class XVideo {
     this.createElement();
   }
 
-  private createElement() {
+  createElement() {
     this.vnode = document.createElement('video');
   }
 
@@ -26,14 +26,22 @@ class XVideo {
       }
       this.wrapper = el;
     } else if (container instanceof Element) {
-      this.wrapper === container;
+      this.wrapper = container;
     } else {
       throw Error('invalid video container type');
     }
     if (!this.wrapper || !this.vnode) {
       return;
     }
+    this.setVideoOption();
     this.wrapper.appendChild<HTMLVideoElement>(this.vnode);
+  }
+  setVideoOption() {
+    const { option, vnode } = this;
+    if (!vnode) {
+      return;
+    }
+    vnode.src = option.url;
   }
   play() {
     if (!this.vnode) {
