@@ -1,22 +1,30 @@
+import { Skin } from "./skin";
 import { XVideoOption } from "./types";
 
 class XVideo {
   private option: XVideoOption;
-  private vnode?: HTMLVideoElement;
+  private vNode?: HTMLVideoElement;
   private wrapper?: Element;
+  private vNodeContainer?: HTMLDivElement;
+  private skin?: Skin;
   constructor(option: XVideoOption) {
     this.option = option;
-    this.createElement();
+    this.createVideo();
+    this.createContainer();
   }
 
-  createElement() {
-    this.vnode = document.createElement('video');
+  createVideo() {
+    this.vNode = document.createElement('video');
+  }
+
+  createContainer() {
+    this.vNodeContainer = document.createElement('div');
   }
 
   init() {
-    const { option, vnode } = this;
+    const { option, vNodeContainer } = this;
     const container = option?.container;
-    if (!container || !vnode) {
+    if (!container || !vNodeContainer) {
       return;
     }
     if (typeof container === 'string') {
@@ -30,36 +38,41 @@ class XVideo {
     } else {
       throw Error('invalid video container type');
     }
-    if (!this.wrapper || !this.vnode) {
+    if (!this.wrapper) {
       return;
     }
     this.setVideoOption();
-    this.wrapper.appendChild<HTMLVideoElement>(this.vnode);
+    this.wrapper.appendChild(vNodeContainer);
   }
   setVideoOption() {
-    const { option, vnode } = this;
-    if (!vnode) {
+    const { option, vNode, vNodeContainer } = this;
+    if (!vNode || !vNodeContainer) {
       return;
     }
-    vnode.src = option.url;
+    vNode.src = option.url;
+    vNodeContainer.appendChild(vNode);
+    this.skin = new Skin({videoInstance: vNode});
+    if (this.skin.vm) {
+      vNodeContainer.appendChild(this.skin.vm);
+    }
   }
   play() {
-    if (!this.vnode) {
+    if (!this.vNode) {
       return;
     }
-    this.vnode.play();
+    this.vNode.play();
   }
   resume() {
-    if (!this.vnode) {
+    if (!this.vNode) {
       return;
     }
-    this.vnode.play();
+    this.vNode.play();
   }
   pause() {
-    if (!this.vnode) {
+    if (!this.vNode) {
       return;
     }
-    this.vnode.pause();
+    this.vNode.pause();
   }
 }
 
